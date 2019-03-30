@@ -1,0 +1,34 @@
+{
+  "name": "smsburner",
+  "version": "0.0.1",
+  "description": "SMS-Burner front-end",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": {
+    "url": "https://0xFF.se"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xFFse/sms-burner.git"
+  },
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "axios": "^0.18.0",
+    "css-reset-and-normalize": "^2.0.1",
+    "moment": "^2.24.0",
+    "next": "^8.0.3",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-moment": "^0.8.4",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  }
+}

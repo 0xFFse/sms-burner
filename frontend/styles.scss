@@ -1,0 +1,15 @@
+@import './node_modules/css-reset-and-normalize/scss/reset-and-normalize';
+
+$yellow : #fcbe31;
+$borders : #3c3c3c;
+$background : rgb(40, 44, 52);
+$green : #1EEB27;
+
+$layout-max-width: 920px;
+
+@import './styles/_typography';
+@import './styles/_layout';
+@import './styles/_header';
+@import './styles/_messages';
+@import './styles/_footer';
+@import './styles/sidebar';

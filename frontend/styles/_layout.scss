@@ -1,0 +1,27 @@
+html, #__next, .page-wrapper {
+  height:100%;
+}
+body {
+  background-color: $background;
+  font-family: 'Courier';
+  color: #FFF;
+  height:100%;
+}
+.container {
+  width: 100%;
+  padding: 0 2%;
+  max-width: $layout-max-width;
+  margin: 0 auto;
+  min-height:100%;
+  position:relative;
+}
+.content-with-sidebar {
+  padding-bottom:30px;
+  .content {
+    width: 75%;
+  }
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+}

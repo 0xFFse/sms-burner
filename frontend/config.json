@@ -1,0 +1,4 @@
+{
+  "messageAPIUrl" : "https://hackathon1-1.0xff.se/sms-service-api/messages",
+  "numbersAPIUrl" : "https://hackathon1-1.0xff.se/sms-service-api/numbers"
+}
