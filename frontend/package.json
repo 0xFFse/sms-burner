@@ -4,12 +4,12 @@
   "description": "SMS-Burner front-end",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "author": {
-    "url": "https://0xFF.se"
+    "url": "https://0xff.se"
   },
   "license": "MIT",
   "repository": {
@@ -20,6 +20,7 @@
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.18.0",
     "css-reset-and-normalize": "^2.0.1",
+    "express": "^4.16.4",
     "moment": "^2.24.0",
     "next": "^8.0.3",
     "node-sass": "^4.11.0",
