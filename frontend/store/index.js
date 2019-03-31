@@ -1,9 +1,16 @@
 import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from '../reducers'
 
-const loggerMiddleware = createLogger()
+const middlewares = [thunkMiddleware]
+
+// Don't use logger in production
+const dev = process.env.NODE_ENV !== 'production'
+if (dev) {
+  const { createLogger } = require('redux-logger')
+  const loggerMiddleware = createLogger()
+  middlewares.push(loggerMiddleware)
+}
 
 /**
  * Create store from reducers and use Think & logger middlewares.
@@ -11,7 +18,6 @@ const loggerMiddleware = createLogger()
 export const Store = createStore(
   rootReducer,
   applyMiddleware(
-    thunkMiddleware,
-    loggerMiddleware
+    ...middlewares
   )
 )
