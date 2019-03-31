@@ -12,7 +12,7 @@ function Home() {
   return (
     <div className={'page-wrapper'}>
       <Head>
-        <title>SMS-Burner - Another privacy layer for your phone.</title>
+        <title>SMS-Burner - Ta emot SMS anonymt</title>
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"
@@ -27,7 +27,7 @@ function Home() {
           </section>
           <aside className={'sidebar'}>
             <div className={'sidebar-inner'}>
-              <h3>Active numbers</h3>
+              <h3>Aktiva nummer</h3>
               <ActiveNumbersList />
             </div>
           </aside>

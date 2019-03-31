@@ -30,19 +30,19 @@ class MessagesList extends Component {
     return (
       <div className={'messagelist'}>
         <div className={'title'}>
-          <h3>Messages by time</h3>
-          <p className={'refresh-status'}> (refreshes every 5 seconds)</p>
+          <h3>Meddelanden</h3>
+          <p className={'refresh-status'}> (uppdateras var 5 sekund)</p>
         </div>
         { messages.map((message, i) => {
           return <Message message={message} key={i} />;
         }) }
 
         { (messages.length === 0 && loaded) &&
-          <span>No recent messages</span>
+          <span>Inga meddelanden</span>
         }
 
         { (error) &&
-          <span>Error while getting messages</span>
+          <span>Ett fel uppstod vid h&auml;ntning av meddelanden</span>
         }
 
       </div>
