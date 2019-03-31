@@ -9,7 +9,8 @@ header {
     img {
       width: 48px;
     }
-    .logo {
+    .logo,
+    .logo a {
       text-transform: uppercase;
       color: $yellow;
       text-decoration: none;

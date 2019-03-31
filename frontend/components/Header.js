@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 /**
  * Page header component
  */
@@ -6,7 +8,9 @@ function Header() {
     <header>
       <div className={'title'}>
         <img src="/static/fire.png" alt="Burn" />
-        <h1 className={'logo'}><a href="/" className={'logo'}>SMS Burner</a></h1>
+        <h1 className={'logo'}>
+          <Link href="/">SMS Burner</Link>
+        </h1>
         <img src="/static/fire.png" alt="Burn" />
       </div>
       <div className={'description'}>
