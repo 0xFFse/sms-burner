@@ -9,7 +9,11 @@ function Header() {
       <div className={'title'}>
         <img src="/static/fire.png" alt="Burn" />
         <h1 className={'logo'}>
-          <Link href="/">SMS Burner</Link>
+          <Link href="/">
+            <a title={'SMS Burner'}>
+              {'SMS Burner'}
+            </a>
+          </Link>
         </h1>
         <img src="/static/fire.png" alt="Burn" />
       </div>
