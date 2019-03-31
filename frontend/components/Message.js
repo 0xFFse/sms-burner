@@ -1,4 +1,4 @@
-import Moment from 'react-moment';
+import MessageDate from './MessageDate'
 
 /**
  * Single message component
@@ -15,9 +15,7 @@ function Message({ message }) {
         </p>
       </div>
       <div className={'received_at'}>
-        <Moment format="DD/MM-YYYY HH:mm">
-          { message.ts }
-        </Moment>
+        <MessageDate ts={message.ts} />
       </div>
     </article>
   );
