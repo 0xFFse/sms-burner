@@ -1,25 +1,15 @@
-import Head from 'next/head';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import "../styles.scss"
+import Layout from '../components/Layout'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 /**
  * About -page top level component
  */
-function About() {
-  return (
-    <div className={'page-wrapper'}>
-      <Head>
-        <title>SMS-Burner - Ta emot SMS anonymt</title>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-          key="viewport"
-        />
-      </Head>
-      <div className={'container'}>
-        <Header />
-        <div className={'content-with-sidebar row'}>
+const About = () => (
+  <Layout>
+    <div className={'container'}>
+      <Header />
+      <div className={'content-with-sidebar row'}>
         <p>
             Fler och fler webbtj&auml;nster kr&auml;ver telefonnummer vid kontoregistrering.
             D&aring; ditt telefonnummer &auml;r unikt kan det enkelt anv&auml;ndas f&ouml;r att knyta ihop skuggprofiler och b&auml;ttre kartl&auml;gga ditt internetanv&auml;ndande.<br/>
@@ -28,11 +18,10 @@ function About() {
             &nbsp;<br/>
             Tj&auml;nsten utvecklades av eldsj&auml;lar under ett Hackathon hos <a target="_blank" href="https://0xff.se/">0xFF Cyber tech community</a> i Stockholm en kv&auml;ll i Mars 2019.
         </p>
-        </div>
-        <Footer />
       </div>
+      <Footer />
     </div>
-  );
-}
+  </Layout>
+);
 
 export default About;

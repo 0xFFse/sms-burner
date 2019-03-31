@@ -1,7 +1,8 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { Provider } from 'react-redux'
-import { Store } from '../store';
+import { Store } from '../store'
+import "../styles.scss"
 
 /**
  * Override default Next.js App
