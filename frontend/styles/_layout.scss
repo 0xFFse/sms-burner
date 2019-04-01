@@ -25,7 +25,7 @@ body {
   display: flex;
   justify-content: space-between;
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: $small-screen-max-width) {
   .content-with-sidebar {
     .content {
       width: 100%;

@@ -23,7 +23,7 @@
     }
   }
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: $small-screen-max-width) {
   .sidebar {
     width: 100%;
     margin: 0;

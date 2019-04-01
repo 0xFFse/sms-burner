@@ -15,7 +15,7 @@ h2 {
   font-size: 100%;
   text-decoration: underline;
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: $small-screen-max-width) {
   h1 {
     font-size: 70%;
   }

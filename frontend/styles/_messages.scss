@@ -29,7 +29,7 @@
     }
   }
 }
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: $small-screen-max-width) {
   .messagelist {
     .title {
       flex-direction: column;
