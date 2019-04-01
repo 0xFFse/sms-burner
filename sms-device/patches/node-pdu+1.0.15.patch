@@ -1,0 +1,27 @@
+diff --git a/node_modules/node-pdu/PDU/Helper.js b/node_modules/node-pdu/PDU/Helper.js
+index 303db07..b113ea4 100644
+--- a/node_modules/node-pdu/PDU/Helper.js
++++ b/node_modules/node-pdu/PDU/Helper.js
+@@ -129,11 +129,20 @@ Helper.decode7Bit = function(text, inLen, alignBits)
+         if(digit % 128 == 27){
+             inExt = true;
+         } else {
++            var c;
+             if(inExt){
+-                ret.push(Helper.EXTENDED_TABLE.charCodeAt(digit));
++                c = Helper.EXTENDED_TABLE.charCodeAt(digit);
+                 inExt = false;
+             } else {
+-                ret.push(Helper.ALPHABET_7BIT.charCodeAt(digit));
++                c = Helper.ALPHABET_7BIT.charCodeAt(digit);
++            }
++            if (c < 0x80) {
++                ret.push(c);
++            } else if (c < 0x800) {
++                ret.push(0xc0 | (c >> 6), 0x80 | (c & 0x3f));
++            } else {
++                //BUGBUG: more magic needed...
++                ret.push(0x5F);
+             }
+         }
+ 

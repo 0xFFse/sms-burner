@@ -1,0 +1,9 @@
+{
+	"loglevel": "debug",
+	"serialport": "/dev/ttyS0",
+	"baudrate": 115200,
+	"concatedSMSTimeout": 30000,
+	"number": "1234567",
+	"api": "https://myserver/sms-service-api",
+	"sharedSecret": "changeme"
+}
