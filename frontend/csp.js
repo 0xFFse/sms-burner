@@ -12,9 +12,11 @@ module.exports = function csp (app) {
 
   const scriptSrc = [nonce, "'self'"]
 
+  const connectSrc = ["'self'"]
   // In dev we allow 'unsafe-eval', so HMR doesn't trigger the CSP
   if (process.env.NODE_ENV !== 'production') {
     scriptSrc.push("'unsafe-eval'")
+    connectSrc.push("https://sms.0xff.se")
   }
 
   app.use(
@@ -25,6 +27,7 @@ module.exports = function csp (app) {
           baseUri: ["'none'"],
           objectSrc: ["'none'"],
           scriptSrc,
+          connectSrc,
           styleSrc: ["'self'"]
         }
       }
