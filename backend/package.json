@@ -1,0 +1,27 @@
+{
+  "name": "sms-burner-backend",
+  "version": "1.0.0",
+  "description": "SMS-burner backend API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha",
+    "start": "node index.js",
+    "hashsecret": "node hash_secret.js"
+  },
+  "author": "https://0xff.se",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "rate-limiter-flexible": "^0.23.3",
+    "sqlite3": "^4.0.6",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2"
+  }
+}
