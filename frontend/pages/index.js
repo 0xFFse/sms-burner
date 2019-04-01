@@ -17,7 +17,7 @@ const Home = () => (
         </section>
         <aside className={'sidebar'}>
           <div className={'sidebar-inner'}>
-            <h3>Aktiva nummer</h3>
+            <h2>Aktiva nummer</h2>
             <ActiveNumbersList />
           </div>
         </aside>
