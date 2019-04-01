@@ -1,0 +1,6 @@
+{
+    "loglevel": "debug",
+    "URL_PREFIX": "/sms-service-api",
+    "sharedSecretHash": "changeme",
+    "port": 3001
+}
