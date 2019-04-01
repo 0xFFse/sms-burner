@@ -21,6 +21,7 @@ module.exports = function csp (app) {
     helmet({
       contentSecurityPolicy: {
         directives: {
+          defaultSrc: ["'self'"],
           baseUri: ["'none'"],
           objectSrc: ["'none'"],
           scriptSrc,
