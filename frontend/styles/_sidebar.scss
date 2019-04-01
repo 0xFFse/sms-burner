@@ -23,3 +23,17 @@
     }
   }
 }
+@media only screen and (max-width: 481px) {
+  .sidebar {
+    width: 100%;
+    margin: 0;
+    border-left: none;
+    border-bottom: 1px solid $borders;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    .sidebar-inner {
+      padding: 0;
+      text-align: center;
+    }
+  }
+}
