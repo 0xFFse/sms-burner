@@ -8,17 +8,17 @@ function Header() {
     <header>
       <div className={'title'}>
         <img src="/static/fire.png" alt="Burn" />
-        <h1 className={'logo'}>
+        <div className={'logo'}>
           <Link href="/">
-            <a title={'SMS Burner'}>
-              {'SMS Burner'}
+            <a title={'SMS-Burner'}>
+              <img alt={'SMS-Burner'} style={{width: '240px'}} src={'/static/logo-typo.svg'} />
             </a>
           </Link>
-        </h1>
+        </div>
         <img src="/static/fire.png" alt="Burn" />
       </div>
       <div className={'description'}>
-        <h2>Telefon-verifikation med bibeh&aring;llen integritet</h2>
+        <h1>Telefon-verifikation med bibeh&aring;llen integritet</h1>
       </div>
     </header>
   );

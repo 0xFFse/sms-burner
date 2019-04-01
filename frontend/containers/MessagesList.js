@@ -30,7 +30,7 @@ class MessagesList extends Component {
     return (
       <div className={'messagelist'}>
         <div className={'title'}>
-          <h3>Meddelanden</h3>
+          <h2>Meddelanden</h2>
           <p className={'refresh-status'}> (uppdateras var 5 sekund)</p>
         </div>
         { messages.map((message, i) => {
