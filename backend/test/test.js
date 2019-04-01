@@ -15,27 +15,6 @@ function sleep(ms) {
 }
 
 describe("Static tests",function(){
-
-    it("/",function(done){
-        server
-        .get("/")
-        .expect(200)
-        .end(function(err,res){
-            res.status.should.equal(200);
-            done();
-        });
-    });
-
-    it("/script.js",function(done){
-        server
-        .get("/script.js")
-        .expect(200)
-        .end(function(err,res){
-            res.status.should.equal(200);
-            done();
-        });
-    });
-
     it("random 404",function(done){
         server
         .get("/lkjsdflkjsdf")

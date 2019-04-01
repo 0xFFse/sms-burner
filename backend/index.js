@@ -10,9 +10,6 @@ const bodyParser = require('body-parser');
 // bcrypt for secret hash
 const bcryptjs = require('bcryptjs');
 
-// helmet to add some security headers etc
-const helmet = require('helmet');
-
 // rate limiter to limit abuse of service like brute forcing secret
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 
@@ -22,9 +19,8 @@ const settings = require(process.env.NODE_ENV === 'test' ? './settings-test.json
 // get the db functionality
 const db = require('./db.js')
 
-// initialize express with helmet and bodyparser middleware
+// initialize express with bodyparser middleware
 const app = express();
-app.use(helmet());
 app.use(bodyParser.json({inflate: false, limit: '2kb'}));
 
 // add rate limiting, max 20 requests in 5 seconds then get banned for 30 seconds
