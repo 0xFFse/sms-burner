@@ -22,6 +22,7 @@
     "axios": "^0.18.0",
     "css-reset-and-normalize": "^2.0.1",
     "express": "^4.16.4",
+    "helmet": "^3.16.0",
     "next": "^8.0.3",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",

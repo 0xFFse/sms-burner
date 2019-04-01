@@ -11,7 +11,7 @@ function Header() {
         <div className={'logo'}>
           <Link href="/">
             <a title={'SMS-Burner'}>
-              <img alt={'SMS-Burner'} style={{width: '240px'}} src={'/static/logo-typo.svg'} />
+              <img alt={'SMS-Burner'} className={'logoTxt'} src={'/static/logo-typo.svg'} />
             </a>
           </Link>
         </div>
