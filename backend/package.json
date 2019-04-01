@@ -14,7 +14,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "helmet": "^3.16.0",
     "rate-limiter-flexible": "^0.23.3",
     "sqlite3": "^4.0.6",
     "winston": "^3.2.1"
