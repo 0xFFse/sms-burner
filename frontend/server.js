@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const csp = require('./csp.js')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -11,6 +12,7 @@ app.prepare()
 .then(() => {
   const server = express()
 
+  csp(server);
   server.get('*', (req, res) => {
     return handle(req, res)
   })
