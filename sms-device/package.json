@@ -1,0 +1,24 @@
+{
+  "name": "sms-device",
+  "version": "0.0.1",
+  "description": "SMS receiving device",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha",
+    "postinstall": "patch-package"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-pdu": "1.0.15",
+    "patch-package": "^6.1.0",
+    "request": "^2.88.0",
+    "serialport": "^7.1.4",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "rewire": "^4.0.1",
+    "should": "^13.2.3"
+  }
+}
