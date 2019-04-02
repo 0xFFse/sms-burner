@@ -1,4 +1,4 @@
-.messagelist {
+  .messagelist {
   padding-bottom: 15px;
   .title {
     display: flex;
@@ -13,18 +13,9 @@
     border-bottom: 1px solid $borders;
     line-height: 1.5em;
     font-size: 80%;
-    .from {
-      width: 20%;
-      text-align: left;
-    }
-    .received_at {
-      width: 20%;
-      text-align: right;
-      font-size: 90%;
-    }
+    text-align: left;
     .message {
-      width: 60%;
-      text-align: left;
+      width: 80%;
       white-space: pre-wrap;
     }
   }
@@ -41,19 +32,14 @@
     .row {
       flex-direction: column;
       .message,
-      .from,
-      .received_at {
+      .meta {
         width: 100%;
       }
-      .message,
-      .from {
+      .meta {
         padding-bottom: 10px;
       }
-      .from {
+      .from_txt {
         font-weight: bold;
-      }
-      .received_at {
-        font-style: italic;
       }
     }
   }

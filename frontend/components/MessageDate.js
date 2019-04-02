@@ -7,13 +7,27 @@ const MessageDate = ({ ts }) => {
     n < 10 ? '0'+n : n
   )
 
+  const month = (n) => {
+    switch(n) {
+      case 0: return 'Jan';
+      case 1: return 'Feb';
+      case 2: return 'Mar';
+      case 3: return 'Apr';
+      case 4: return 'Maj';
+      case 5: return 'Jun';
+      case 6: return 'Jul';
+      case 7: return 'Aug';
+      case 8: return 'Sep';
+      case 9: return 'Okt';
+      case 10: return 'Nov';
+      case 11: return 'Dec';
+    }
+  }
+
   const formatDate = (date) => {
-    const day = pad(date.getDate())
-    const month = pad(date.getMonth()+1)
-    const year = date.getFullYear()
     const hours = pad(date.getHours())
     const minutes = pad(date.getMinutes())
-    return day + '/' + month + '-' + year + ' '+ hours + ':' + minutes;
+    return date.getDate() + ' ' + month(date.getMonth()) + ' ' + hours + ':' + minutes;
   }
 
   const date = new Date(ts)
