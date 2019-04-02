@@ -1,0 +1,60 @@
+.messagelist {
+  padding-bottom: 15px;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $borders;
+    .refresh-status {
+      font-size: 70%;
+    }
+  }
+  .row {
+    padding: 10px 0;
+    border-bottom: 1px solid $borders;
+    line-height: 1.5em;
+    font-size: 80%;
+    .from {
+      width: 20%;
+      text-align: left;
+    }
+    .received_at {
+      width: 20%;
+      text-align: right;
+      font-size: 90%;
+    }
+    .message {
+      width: 60%;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  }
+}
+@media only screen and (max-width: $small-screen-max-width) {
+  .messagelist {
+    .title {
+      flex-direction: column;
+      padding-bottom: 10px;
+      h2 {
+        line-height: 1em;
+      }
+    }
+    .row {
+      flex-direction: column;
+      .message,
+      .from,
+      .received_at {
+        width: 100%;
+      }
+      .message,
+      .from {
+        padding-bottom: 10px;
+      }
+      .from {
+        font-weight: bold;
+      }
+      .received_at {
+        font-style: italic;
+      }
+    }
+  }
+}

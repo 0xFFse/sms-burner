@@ -1,0 +1,21 @@
+p {
+  line-height: 1.5em;
+}
+a, p {
+  color: #FFF;
+}
+h1 {
+  line-height: 2em;
+  font-family: 'Courier';
+  font-size: 90%;
+}
+h2 {
+  padding-bottom: 10px;
+  line-height: 1em;
+  font-size: 100%;
+}
+@media only screen and (max-width: $small-screen-max-width) {
+  h1 {
+    font-size: 70%;
+  }
+}

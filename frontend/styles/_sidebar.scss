@@ -1,0 +1,39 @@
+.sidebar {
+  width: 23%;
+  margin-left: 2%;
+  border-left: 1px solid $borders;
+  .sidebar-inner {
+    padding: 0 0 0 15px;
+    .number-list {
+      font-size: 80%;
+      li {
+        line-height: 1.5em;
+        a {
+          text-decoration: none;
+        }
+        .active {
+          width: 6px;
+          height: 6px;
+          background: $green;
+          border-radius: 3px;
+          display:inline-block;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: $small-screen-max-width) {
+  .sidebar {
+    width: 100%;
+    margin: 0;
+    border-left: none;
+    border-bottom: 1px solid $borders;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    .sidebar-inner {
+      padding: 0;
+      text-align: center;
+    }
+  }
+}
