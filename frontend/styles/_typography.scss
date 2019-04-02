@@ -10,7 +10,13 @@ h1 {
   font-size: 90%;
 }
 h2 {
-  padding-bottom: 1em;
+  padding-bottom: 10px;
+  line-height: 1em;
   font-size: 100%;
   text-decoration: underline;
+}
+@media only screen and (max-width: $small-screen-max-width) {
+  h1 {
+    font-size: 70%;
+  }
 }

@@ -9,14 +9,14 @@ body {
 }
 .container {
   width: 100%;
-  padding: 0 2%;
+  padding: 0 4%;
   max-width: $layout-max-width;
   margin: 0 auto;
   min-height:100%;
   position:relative;
 }
 .content-with-sidebar {
-  padding-bottom:30px;
+  padding-bottom:40px;
   .content {
     width: 75%;
   }
@@ -24,4 +24,15 @@ body {
 .row {
   display: flex;
   justify-content: space-between;
+}
+@media only screen and (max-width: $small-screen-max-width) {
+  .content-with-sidebar {
+    .content {
+      width: 100%;
+      order: 1;
+    }
+  }
+  .content-with-sidebar.row {
+    flex-direction: column;
+  }
 }
