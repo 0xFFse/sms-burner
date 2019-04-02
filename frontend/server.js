@@ -1,6 +1,7 @@
 const express = require('express')
 const next = require('next')
 const csp = require('./csp.js')
+const path = require('path')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -13,7 +14,13 @@ app.prepare()
   const server = express()
 
   csp(server);
+
   server.get('*', (req, res) => {
+    // Hack to get favicon to be sent
+    if (req.url === '/favicon.ico') {
+      res.sendFile(path.join(__dirname, 'static', 'favicon.ico'));
+      return;
+    }
     return handle(req, res)
   })
 
