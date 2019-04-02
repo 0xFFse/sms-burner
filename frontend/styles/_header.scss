@@ -7,19 +7,24 @@ header {
     flex-direction: row;
     padding: 20px 0 0px;
     img {
-      width: 48px;
-    }
-    .logoTxt {
-        width: 240px;
+      width: 322px;
+      height: 46px;
     }
   }
   .description {
     text-align: center;
-    padding-bottom: 40px;
     p {
       line-height: 1em;
       font-family: 'Courier';
       font-size: 16px;
     }
+  }
+  .navbar {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 40px;
+    line-height: 1em;
+    font-family: 'Courier';
+    font-size: 16px;
   }
 }
