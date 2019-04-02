@@ -6,8 +6,9 @@ import MessageDate from './MessageDate'
 function Message({ message }) {
   return (
     <article className={'row'}>
-      <div className={'received_at'}>
-          <MessageDate ts={message.ts} /> { message.fromNumber }
+      <div className={'meta'}>
+          <MessageDate ts={message.ts} />
+          <span class={'from_txt'}> { message.fromNumber }</span>
       </div>
       <div className={'message'}>
         <p>
