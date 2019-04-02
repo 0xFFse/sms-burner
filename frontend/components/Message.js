@@ -6,16 +6,13 @@ import MessageDate from './MessageDate'
 function Message({ message }) {
   return (
     <article className={'row'}>
-      <div className={'from'}>
-        { message.fromNumber }
+      <div className={'received_at'}>
+          <MessageDate ts={message.ts} /> { message.fromNumber }
       </div>
       <div className={'message'}>
         <p>
           { message.msg }
         </p>
-      </div>
-      <div className={'received_at'}>
-        <MessageDate ts={message.ts} />
       </div>
     </article>
   );
