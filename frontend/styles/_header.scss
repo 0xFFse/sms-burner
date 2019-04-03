@@ -22,5 +22,24 @@ header {
     line-height: 1em;
     font-family: 'Courier';
     font-size: 16px;
+    ul {
+      li {
+        display: inline-block;
+        margin: 0 0 0 9px;
+        &::after {
+          content: "|";
+          margin-left: 9px;
+        }
+        &:first-child {
+          margin-left: 0px;
+        }
+        &:last-child {
+          &::after {
+            content: "";
+            margin-left: 0px;
+          }
+        }
+      }
+    }
   }
 }
