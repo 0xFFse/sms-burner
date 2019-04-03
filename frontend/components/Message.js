@@ -8,7 +8,7 @@ function Message({ message }) {
     <article className={'row'}>
       <div className={'meta'}>
           <MessageDate ts={message.ts} />
-          <span class={'from_txt'}> { message.fromNumber }</span>
+          <span className={'from_txt'}> { message.fromNumber }</span>
       </div>
       <div className={'message'}>
         <p>

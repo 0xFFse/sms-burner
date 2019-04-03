@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchNumbers } from '../actions/numbers'
+import ActiveNumber from './ActiveNumber'
 
 /**
  * Active numbers component to display list of numbers available
@@ -27,15 +28,9 @@ class ActiveNumbersList extends Component {
     const { numbers, loaded, error } = this.props
     return (
       <ul className={'number-list'}>
-        { numbers.map((number, i) => {
-          return (
-            <li key={i}>
-              <i className={'active'}></i>
-              <a href={ 'tel:'+number }>
-                { number }
-              </a>
-            </li>);
-        }) }
+        { numbers.map((number, i) => (
+          <ActiveNumber key={i} number={number} />
+        )) }
       </ul>
     )
   }
