@@ -36,7 +36,7 @@ class ActiveNumber extends Component {
       <li>
         <i className={'active'}></i>
         <span
-          title={(this.copySupported && 'Click to copy to clipboard')}
+          title={(this.copySupported && 'Kopiera genom att klicka')}
           className={(this.copySupported && 'copy')}
           onClick={this.copyToClipboard}
         >
