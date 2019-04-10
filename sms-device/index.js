@@ -49,7 +49,8 @@ function writeSerial(data) {
 // we use ATE0 to disable echoing of the commands
 function onSerialOpen() {
 	logger.debug('port opened');
-	writeSerial('ATE0\n');
+	// reset module
+	writeSerial('ATZ\n');
 }
 sp.on('open', onSerialOpen);
 
@@ -74,8 +75,12 @@ function ping() {
 }
 
 function postMessageToApi(msg, retriesLeft = 3) {
+	var phone = msg.getAddress().getPhone();
+	if (msg.getAddress().getType().getType() === 1) {
+		phone = '+'+phone;
+	}
 	request.post(settings.api+'/message',
-		{ json: { toNumber: settings.number, fromNumber: msg.getAddress().getPhone(), msg: msg.getData().getText(), secret: settings.sharedSecret } },
+		{ json: { toNumber: settings.number, fromNumber: phone, msg: msg.getData().getText(), secret: settings.sharedSecret } },
 		(err, res, body) => {
 			if (err || res.statusCode !== 201) {
 				logger.warn('could send message to service: '+err);
@@ -156,6 +161,22 @@ function onSerialData(data) {
 	logger.debug('got data: '+data);
 	switch(state) {
 	case 0:
+		// depending if echo was enabled we might get the ATZ back, if so we just ignore
+		if (data === 'ATZ') {
+			return;
+		}
+		if (data !== 'OK') {
+			logger.error('could not init module: '+data);
+			return;
+		}
+		logger.debug('init state 1 completed');
+		state++;
+
+		// disable AT echo
+		writeSerial('ATE0\n');		
+		break;
+
+	case 1:
 		// until we have turned off AT-echo we might get the ATE0 command echoed back to us
 		if (data === 'ATE0') {
 			return;
@@ -167,11 +188,11 @@ function onSerialData(data) {
 		logger.debug('init state 1 completed');
 		state++;
 
-		//configure PDU-mode instead of TXT mode to support multiline text messages etc
+		// configure PDU-mode instead of TXT mode to support multiline text messages etc
 		writeSerial('AT+CMGF=0\n');		
 		break;
 
-	case 1:
+	case 2:
 		if (data !== 'OK') {
 			logger.error('could not set PDU mode: '+data);
 			return;
@@ -184,7 +205,7 @@ function onSerialData(data) {
 		writeSerial('AT+CNMI=3,2\n');
 		break;
 
-	case 2:
+	case 3:
 		if (data !== 'OK') {
 			logger.error('could not set sms notification mode: '+data);
 			return;
@@ -192,25 +213,34 @@ function onSerialData(data) {
 		// we have successfully inited the module and are ready to go, start ping the server
 		ping();
 		logger.info('fully initialized');
-		state = 3;
+		state = 10;
 		break;
 
-	case 3:
+	case 10:
 		// we have received a new text message
 		if (!data.startsWith('+CMT:')) {
+			if (data === 'RING') {
+				writeSerial('ATH\n');
+				logger.info('Received call, hanging up.');
+				return;
+			}
+			if (data === 'OK') {
+				// probably the ATH response
+				return;
+			}
 			logger.warn('ignoring unknown data: '+data.trim());
 			return;
 		}
 
 		logger.debug('received SMS header: '+data.trim());
-		state = 4;
+		state = 15;
 		break;
 
-	case 4:
+	case 15:
 		logger.debug('received SMS data: '+data.trim());
 
 		try {
-			//parse the PDU message (basically a hex-encoding of the number and message but there was a library so yeah)
+			// parse the PDU message (basically a hex-encoding of the number and message but there was a library so yeah)
 			var msg = decode(data.trim());
 			if (msg) {
 				logger.info('received sms from : '+msg.getAddress().getPhone());
@@ -222,8 +252,8 @@ function onSerialData(data) {
 			logger.warn('error parsing sms: '+err);
 		}
 
-		//go back to listening for incoming messages state
-		state = 3;
+		// go back to listening for incoming messages state
+		state = 10;
 		break;
 	}	
 }
