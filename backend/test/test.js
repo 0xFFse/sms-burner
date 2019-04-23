@@ -114,6 +114,7 @@ describe("API",function(){
         fromNumber: '54321',
         msg: 'Test message 1'
     }
+    var firstDate;
     it("Add message",function(done){
         var data = JSON.parse(JSON.stringify(msg1));
         data.secret = 'abcd';
@@ -123,6 +124,8 @@ describe("API",function(){
         .send(JSON.stringify(data))
         .expect(201)
         .end(function(err,res){
+            //BUGBUG: not guaranteed to be same hour
+            firstDate = new Date();
             res.status.should.equal(201);
             done();
         });
@@ -177,6 +180,23 @@ describe("API",function(){
             msg.fromNumber.should.equal(msg1.fromNumber);
             msg.toNumber.should.equal(msg1.toNumber);
             msg.msg.should.equal(msg1.msg);
+            done();
+        });
+    });
+
+    it("Message timestamp",function(done){
+        server
+        .get(API_PREFIX+"/messages")
+        .expect(200)
+        .end(function(err,res){
+            res.status.should.equal(200);
+            var msg = res.body[0];
+            msg.fromNumber.should.equal(msg2.fromNumber);
+            msg.toNumber.should.equal(msg2.toNumber);
+            msg.msg.should.equal(msg2.msg);
+            var d1 = msg.ts.substring(0, msg.ts.indexOf(':'));
+            var d2 = firstDate.toISOString().substring(0, firstDate.toISOString().indexOf(':'));
+            d1.should.equal(d2);
             done();
         });
     });    

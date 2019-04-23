@@ -146,7 +146,8 @@ app.get(settings.URL_PREFIX+'/messages', (req, res) => {
             return;
         }
         messages.forEach((v) => {
-            v.ts = new Date(v.ts).toISOString();
+            // sqlite3 stores ts in UTC without T/Z-letters
+            v.ts = v.ts.replace(' ','T')+'Z';
         })
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(messages));    
