@@ -261,7 +261,7 @@ function errorHandler(err, req, res, next) {
 app.use(errorHandler);
 
 async function init() {
-    if (settings.sharedSecretHash === 'changeme')
+    if (settings.sharedSecret === 'changeme')
         throw new Error('shared secret is unsecure');
     try {
         await db.init('db/main.db');
