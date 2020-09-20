@@ -1,13 +1,16 @@
 import {
   RECEIVE_MESSAGES,
-  RECEIVE_MESSAGES_ERROR
+  REPORT_MESSAGE_CONFIRMATION,
+  RECEIVE_MESSAGES_ERROR,
+  REPORT_MESSAGE_ERROR
 } from '../constants/messages'
 
 // Initial state object
 const initialState = {
-  messages : [],
-  loaded : false,
-  error : false
+  messages: [],
+  loaded: false,
+  error: false,
+  lastId: undefined
 }
 
 /**
@@ -19,16 +22,30 @@ const initialState = {
 const messages = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_MESSAGES:
+      const messages = action.messages.concat(state.messages);
       return {
         ...state,
-        messages : action.messages,
-        loaded : true,
-        error : false
+        messages,
+        loaded: true,
+        error: false,
+        lastId: (messages.length > 0 ? messages[0].id : undefined)
+      }
+    case REPORT_MESSAGE_CONFIRMATION:
+      for (const msg of state.messages) {
+        if (msg.id == action.id) {
+          msg.reported = true;
+          break;
+        }
+      }
+      return {
+        ...state,
+        messages: state.messages.slice()
       }
     case RECEIVE_MESSAGES_ERROR:
+    case REPORT_MESSAGE_ERROR:
       return {
         ...state,
-        error : action.error
+        error: action.error
       }
     default:
       return state

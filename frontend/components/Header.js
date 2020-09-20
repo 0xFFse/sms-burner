@@ -30,6 +30,13 @@ function Header() {
             </Link>
           </li>
           <li>
+            <Link href={'/abuse'}>
+              <a title={'Report abuse'}>
+                {'Abuse'}
+              </a>
+            </Link>
+          </li>
+          <li>
             <a
               target="_blank"
               rel="noopener"

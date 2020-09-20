@@ -11,11 +11,13 @@ class MessagesList extends Component {
   componentDidMount() {
     // Get initial set of messages
     const { dispatch } = this.props
-    dispatch(fetchMessages())
+    dispatch(fetchMessages(undefined))
 
     // Get messages every 5 sec
+    const th = this;
     this.interval = setInterval(() => {
-      dispatch(fetchMessages())
+      const { lastId } = this.props;
+      dispatch(fetchMessages(lastId))
     }, 5000)
   }
 
@@ -33,15 +35,15 @@ class MessagesList extends Component {
           <h2>Meddelanden</h2>
           <p className={'refresh-status'}> (uppdateras var 5 sekund)</p>
         </div>
-        { messages.map((message, i) => {
+        {messages.map((message, i) => {
           return <Message message={message} key={i} />;
-        }) }
+        })}
 
-        { (messages.length === 0 && loaded) &&
+        {(messages.length === 0 && loaded) &&
           <span>Inga meddelanden</span>
         }
 
-        { (error) &&
+        {(error) &&
           <span>Ett fel uppstod vid h&auml;ntning av meddelanden</span>
         }
 
@@ -50,10 +52,11 @@ class MessagesList extends Component {
   }
 }
 
-const mapStateToProps = ({messages}) => ({
+const mapStateToProps = ({ messages }) => ({
   messages: messages.messages,
   loaded: messages.loaded,
-  error: messages.error
+  error: messages.error,
+  lastId: messages.lastId
 })
 
 export default connect(

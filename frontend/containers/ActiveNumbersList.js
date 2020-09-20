@@ -16,7 +16,7 @@ class ActiveNumbersList extends Component {
     // Get numbers every 10 sec
     this.interval = setInterval(() => {
       dispatch(fetchNumbers())
-    }, 10000)
+    }, 20000)
   }
 
   componentWillUnmount() {
@@ -28,15 +28,15 @@ class ActiveNumbersList extends Component {
     const { numbers, loaded, error } = this.props
     return (
       <ul className={'number-list'}>
-        { numbers.map((number, i) => (
+        {numbers.map((number, i) => (
           <ActiveNumber key={i} number={number} />
-        )) }
+        ))}
       </ul>
     )
   }
 }
 
-const mapStateToProps = ({numbers}) => ({
+const mapStateToProps = ({ numbers }) => ({
   numbers: numbers.numbers,
   loaded: numbers.loaded,
   error: numbers.error
