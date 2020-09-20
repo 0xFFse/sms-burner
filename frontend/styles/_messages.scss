@@ -1,4 +1,4 @@
-  .messagelist {
+.messagelist {
   padding-bottom: 15px;
   .title {
     display: flex;
@@ -9,14 +9,19 @@
     }
   }
   .row {
+    flex-direction: row;
     padding: 10px 0;
     border-bottom: 1px solid $borders;
     line-height: 1.5em;
     font-size: 80%;
     text-align: left;
+    time {
+      display: block;
+    }
     .message {
       width: 80%;
       white-space: pre-wrap;
+      font-style: italic;
     }
   }
 }
@@ -30,10 +35,18 @@
       }
     }
     .row {
-      flex-direction: column;
-      .message,
+      display: flex;
+      flex-flow: row wrap;
       .meta {
-        width: 100%;
+        order: 1;
+      }
+      .report {   
+        align-self: flex-end;
+        margin-bottom: auto;
+        order: 2;
+      }
+      .message {
+        order: 3;
       }
       .meta {
         padding-bottom: 10px;
@@ -41,6 +54,9 @@
       .from_txt {
         font-weight: bold;
       }
+      time {
+        display: inline-block;
+      }  
     }
   }
 }

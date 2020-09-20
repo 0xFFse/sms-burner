@@ -1,4 +1,5 @@
 {
-  "messageAPIUrl" : "https://sms.0xff.se/sms-service-api/messages",
-  "numbersAPIUrl" : "https://sms.0xff.se/sms-service-api/numbers"
+  "messageAPIUrl": "https://sms.0xff.se/sms-service-api/messages",
+  "numbersAPIUrl": "https://sms.0xff.se/sms-service-api/numbers",
+  "reportMessageAPIUrl": "https://sms.0xff.se/sms-service-api/message/:id/report"
 }

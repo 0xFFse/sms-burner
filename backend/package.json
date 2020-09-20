@@ -11,15 +11,17 @@
   "author": "https://0xff.se",
   "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "rate-limiter-flexible": "^0.23.3",
-    "sqlite3": "^4.0.6",
-    "winston": "^3.2.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "rate-limiter-flexible": "^0.23.7",
+    "sqlite": "^4.0.14",
+    "sqlite3": "^4.2.0",
+    "winston": "^3.3.3",
+    "ws": "^7.3.1"
   },
   "devDependencies": {
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.3",
+    "rewire": "^5.0.0",
     "should": "^13.2.3",
     "supertest": "^4.0.2"
   }

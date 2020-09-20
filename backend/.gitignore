@@ -2,3 +2,4 @@ node_modules
 *~
 settings.json
 test.db
+.vscode
