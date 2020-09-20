@@ -274,7 +274,7 @@ async function init() {
         throw new Error("Failed to load abuse pattern: " + err);
     }
     db.cleanup();
-    app.listen(settings.port, () => {
+    app.listen(settings.port, settings.ip, () => {
         logger.info('Started sms service');
     });
 }
