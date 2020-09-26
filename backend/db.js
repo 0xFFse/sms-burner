@@ -120,13 +120,14 @@ exports.reportAbuse = async function (id, ip) {
     return message;
 }
 
-exports.deleteMessage = async function (id, banNumber) {
-    const msg = await db.get('SELECT fromNumber FROM Message WHERE id=?', id)
+exports.deleteReportedMessage = async function (id, banNumber) {
+    const msg = await db.get('SELECT fromNumber FROM Message JOIN AbuseReport ON Message.id=AbuseReport.messageId WHERE id=?', id)
     if (banNumber && msg) {
         const pattern = escaperegexp(msg.fromNumber);
         await db.run("INSERT INTO AbusePattern(pattern,flags) VALUES(?,3) ON CONFLICT DO NOTHING", pattern);
     }
     await db.run('DELETE FROM Message WHERE id=?', id);
+    await db.run('DELETE FROM AbuseReport WHERE messageId=?', id);
     return (msg ? msg.fromNumber : null);
 }
 

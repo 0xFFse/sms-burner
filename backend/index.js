@@ -277,7 +277,7 @@ app.get(settings.URL_PREFIX + '/message/:id/delete', async (req, res) => {
         const ban = (req.query.ban && req.query.ban === 'true');
         let deletedNumber;
         try {
-            deletedNumber = await db.deleteMessage(id, ban);
+            deletedNumber = await db.deleteReportedMessage(id, ban);
         } catch (err) {
             logger.error('Error deleting message: ' + err);
             res.status(500).send('Could not delete message');
