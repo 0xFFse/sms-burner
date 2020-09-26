@@ -3,6 +3,7 @@ const logger = require('./logger.js');
 
 const sqlite3 = require('sqlite3');
 const sqlite = require('sqlite');
+const escaperegexp = require('escape-string-regexp');
 
 let db;
 let cleanupTimer;
@@ -117,6 +118,23 @@ exports.reportAbuse = async function (id, ip) {
     // since we need to get the count of reports per distinct ip we can't do a regular join in the initial query
     message.reports = await db.get('SELECT COUNT(*) AS total, COUNT(DISTINCT ip) AS sources FROM AbuseReport WHERE messageId=?', id);;
     return message;
+}
+
+exports.deleteMessage = async function (id, banNumber) {
+    const msg = await db.get('SELECT fromNumber FROM Message WHERE id=?', id)
+    if (banNumber && msg) {
+        const pattern = escaperegexp(msg.fromNumber);
+        await db.run("INSERT INTO AbusePattern(pattern,flags) VALUES(?,3) ON CONFLICT DO NOTHING", pattern);
+    }
+    await db.run('DELETE FROM Message WHERE id=?', id);
+    return (msg ? msg.fromNumber : null);
+}
+
+exports.getMessage = async function (id) {
+    const msg = await db.get('SELECT id, ts, toNumber, fromNumber, msg FROM Message WHERE id=?', id);
+    if (msg)
+        msg.ts = new Date(msg.ts * 1000);
+    return msg;
 }
 
 exports.getMessages = async function (from, limit) {

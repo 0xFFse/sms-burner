@@ -28,8 +28,18 @@ describe("Static tests", function () {
     });
 });
 
+
 describe("API", function () {
     let rawDb;
+
+    const getMessageFromDB = (id) => {
+        return rawDb.get("SELECT * FROM Message WHERE ID=?", id);
+    }
+
+    const storeMessageInDB = async (msg) => {
+        const res = await rawDb.run("INSERT INTO Message(id,ts,toNumber,fromNumber,msg) VALUES(?,?,?,?,?)", msg.id, msg.ts, msg.toNumber, msg.fromNumber, msg.msg);
+        return res.lastID;
+    }
 
     before(async () => {
         try {
@@ -53,6 +63,44 @@ describe("API", function () {
     after(async () => {
         await db.close();
         fs.unlinkSync('test/test.db');
+    });
+
+    beforeEach(async () => {
+        const rateLimiter = app.__get__('rateLimiter');
+        rateLimiter.delete('::ffff:127.0.0.1');
+    })
+
+    it("shall send 429 on too many request from same host", async () => {
+        settings.REAL_IP_HEADER = undefined;
+        let res;
+        for (let i = 0; i < 100; i++) {
+            res = await server
+                .get(API_PREFIX + "/numbers");
+            if (res.status == 429)
+                break;
+        }
+        should.equal(res.status, 429);
+    });
+
+    it("shall send 429 on too many request from same host using ip header from proxy", async () => {
+        settings.REAL_IP_HEADER = 'X-Real-IP';
+        try {
+            const headers = {};
+            headers[settings.REAL_IP_HEADER] = '1.2.3.4';
+            let res = await server.get(API_PREFIX + "/numbers").set(headers);
+            should.equal(res.status, 200);
+            for (let i = 0; i < 100; i++) {
+                res = await server.get(API_PREFIX + "/numbers").set(headers);
+                if (res.status == 429)
+                    break;
+            }
+            should.equal(res.status, 429);
+            headers[settings.REAL_IP_HEADER] = '1.2.3.5';
+            res = await server.get(API_PREFIX + "/numbers").set(headers);
+            should.equal(res.status, 200);
+        } finally {
+            settings.REAL_IP_HEADER = undefined;
+        }
     });
 
     let number = "";
@@ -348,6 +396,13 @@ describe("API", function () {
                 .send()
                 .expect(200);
 
+            //BUGBUG: the server doesn't wait for script completion before sending a response so we wait some
+            for (let i = 0; i < 100; i++) {
+                if (fs.existsSync('test/report.json'))
+                    break;
+                await sleep(10);
+            }
+
             fs.existsSync('test/report.json').should.equal(true);
             const data = fs.readFileSync('test/report.json');
             const reported = JSON.parse(data);
@@ -367,6 +422,33 @@ describe("API", function () {
             } catch (err) {
             }
         }
+    });
+
+    it("should NOT delete message with invalid moderator password", async function () {
+        await server
+            .get(API_PREFIX + '/message/1/delete')
+            .send()
+            .expect(400);
+
+        await server
+            .get(API_PREFIX + '/message/1/delete?password=incorrect')
+            .send()
+            .expect(403);
+    });
+
+    it("should delete message with valid moderator password", async function () {
+        let msg = { toNumber: '1234', fromNumber: '+999888777', msg: 'msg', ts: 123 };
+        const id = await storeMessageInDB(msg);
+        settings.moderatorPassword = '1234';
+        await server
+            .get(API_PREFIX + '/message/' + id + '/delete?password=1234&ban=true&confirm=true')
+            .send()
+            .expect(200);
+        msg = await getMessageFromDB(id);
+        should.not.exist(msg);
+        const pattern = await rawDb.get('SELECT flags FROM AbusePattern WHERE pattern=?', '\\+999888777');
+        should.exist(pattern);
+        should.equal(pattern.flags, 3);
     });
 
 });

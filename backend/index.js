@@ -16,6 +16,9 @@ const crypto = require('crypto');
 // spawn for notification script
 const { spawn } = require('child_process');
 
+// for html sanitization
+const sanitize = require('sanitize-html');
+
 // load settings
 const settings = require(process.env.NODE_ENV === 'test' ? './settings-test.json' : './settings.json');
 
@@ -50,7 +53,7 @@ function getRealIp(req) {
         const realIp = req.get(settings.REALIP_HEADER);
         if (realIp)
             return realIp;
-        logger.warn("Missing real IP header, falling back to real address.");
+        logger.warn("Request missing real IP header, falling back to real address.");
     }
     return req.connection.remoteAddress;
 }
@@ -208,10 +211,8 @@ app.get(settings.URL_PREFIX + '/messages', async (req, res) => {
  * Report a message
  */
 app.get(settings.URL_PREFIX + '/message/:id/report', async (req, res) => {
-    let id = req.params['id'];
-    if (id)
-        id = parseInt(id);
-    if (id) {
+    let id = parseInt(req.params.id);
+    if (!isNaN(id)) {
         let message;
         try {
             message = await db.reportAbuse(id, getRealIp(req));
@@ -252,6 +253,108 @@ app.get(settings.URL_PREFIX + '/message/:id/report', async (req, res) => {
 });
 
 /**
+ * Delete/ban a message
+ */
+app.get(settings.URL_PREFIX + '/message/:id/delete', async (req, res) => {
+    let id = parseInt(req.params.id);
+    if (isNaN(id) || !req.query.password) {
+        res.status(400).send('Missing/invalid parameters');
+        return;
+    }
+
+    // add a random delay to make brute forcing the shared secret harder
+    const buff = await crypto.randomBytes(2);
+    const randomDelay = buff.readUInt16BE() % 500;
+    await sleep(randomDelay + 1);
+
+    if (!settings.moderatorPassword || settings.moderatorPassword !== req.query.password) {
+        logger.warn('Invalid moderator password from ' + getRealIp(req));
+        res.status(403).send('Access denied');
+        return;
+    }
+
+    if (req.query.confirm && req.query.confirm === 'true') {
+        const ban = (req.query.ban && req.query.ban === 'true');
+        let deletedNumber;
+        try {
+            deletedNumber = await db.deleteMessage(id, ban);
+        } catch (err) {
+            logger.error('Error deleting message: ' + err);
+            res.status(500).send('Could not delete message');
+            return;
+        }
+        if (ban) {
+            // reload abuse patterns
+            try {
+                abusePatterns = await db.getAbusePatterns();
+            } catch (err) {
+                logger.error('Failed to reload abuse patterns: ' + err);
+                res.status(500).send('Failed to reload abuse patterns');
+                return;
+            }
+        }
+        if (!deletedNumber) {
+            res.status(404).send('No such message');
+        } else {
+            logger.info('Deleted message with id ' + id + ' from number ' + deletedNumber);
+            res.status(200).send('Message deleted' + (ban ? ' and banned' : ''));
+        }
+        return;
+    }
+
+    let msg;
+    try {
+        msg = await db.getMessage(id);
+    } catch (err) {
+        logger.error('Error deleting message: ' + err);
+        res.status(500).send('Could not delete message');
+        return;
+    }
+
+    if (!msg) {
+        res.status(404).send('Message not found');
+        return;
+    }
+
+    res.status(200).send(
+        'From: ' + sanitize(msg.fromNumber) + '<br/>' +
+        'Time: ' + msg.ts.toISOString() + '<br/>' +
+        'Message: ' + sanitize(msg.msg) + '<br/>&nbsp;<br/>' +
+        '<a href="' + settings.URL_PREFIX + '/message/' + id + '/delete?confirm=true&password=' + encodeURIComponent(req.query.password) + '">Delete</a><br/>' +
+        '<a href="' + settings.URL_PREFIX + '/message/' + id + '/delete?confirm=true&password=' + encodeURIComponent(req.query.password) + '&ban=true">Delete and ban number</a><br/>'
+    );
+});
+
+/**
+ * Reload abuse patterns
+ */
+app.get(settings.URL_PREFIX + '/reload', async (req, res) => {
+    if (!req.query.password) {
+        res.status(400).send('Missing/invalid parameters');
+        return;
+    }
+
+    // add a random delay to make brute forcing the shared secret harder
+    const buff = await crypto.randomBytes(2);
+    const randomDelay = buff.readUInt16BE() % 500;
+    await sleep(randomDelay + 1);
+
+    if (!settings.moderatorPassword || settings.moderatorPassword !== req.query.password) {
+        logger.warn('Invalid moderator password from ' + getRealIp(req));
+        res.status(403).send('Access denied');
+        return;
+    }
+    try {
+        abusePatterns = await db.getAbusePatterns();
+    } catch (err) {
+        logger.error('Failed to reload abuse patterns: ' + err);
+        res.status(500).send('Failed to reload abuse patterns');
+        return;
+    }
+    res.status(200).send('OK');
+});
+
+/**
  * Die and roll over but don't tell what happened to the end user
  */
 function errorHandler(err, req, res, next) {
@@ -261,8 +364,10 @@ function errorHandler(err, req, res, next) {
 app.use(errorHandler);
 
 async function init() {
-    if (settings.sharedSecret === 'changeme')
+    if (!settings.sharedSecret || settings.sharedSecret === 'changeme')
         throw new Error('shared secret is unsecure');
+    if (settings.moderatorPassword === 'changeme')
+        throw new Error('moderator password is unsecure');
     try {
         await db.init('db/main.db');
     } catch (err) {
