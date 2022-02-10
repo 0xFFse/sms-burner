@@ -24,7 +24,7 @@
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "next": "^9.5.3",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
